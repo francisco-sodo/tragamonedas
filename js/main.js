@@ -1,4 +1,4 @@
-
+function preEntrega() {
 let tiros = 3;
 let dinero = 800;
 let dineroGanado = 0;
@@ -74,6 +74,7 @@ if (edad >= 18) {
   
 }
 
+}
 
 
 
