@@ -1,85 +1,98 @@
-function preEntrega() {
+
+
 let tiros = 3;
-let dinero = 800;
-let dineroGanado = 0;
+let dinero = 400;
+let dineroGanado = 100;
+const coincidencias = 100;
+const valorTiro = 100;
 
-let edad = Number(prompt("Ingrese su edad"));
 
-if (edad >= 18) {
-  
 
-  function empezar() {
-    for (let i = 3; i > 0; i -= 1) {
-      alert("Presione aceptar para tirar. \nTiros restantes: " + tiros);
 
-      let tresTiros = () => {
-        let shoot1 = Math.ceil(Math.random() * 3);
-        console.log(shoot1);
-        let shoot2 = Math.ceil(Math.random() * 3);
-        console.log(shoot2);
-        let shoot3 = Math.ceil(Math.random() * 3);
-        console.log(shoot3);
-
-        console.log("------------");
-
-        if (shoot1 == 1 && shoot2 == 1 && shoot3 == 1) {
-          dineroGanado += 100;
-          console.log("COINCIDENCIA!\nGANASTE " + dineroGanado + " PESOS");
-          
-        } else if (shoot1 == 2 && shoot2 == 2 && shoot3 == 2) {
-          dineroGanado += 100;
-          console.log("COINCIDENCIA!\nGANASTE " + dineroGanado + " PESOS");
-          
-        } else if (shoot1 == 3 && shoot2 == 3 && shoot3 == 3) {
-          dineroGanado += 100;
-          console.log("COINCIDENCIA!\nGANASTE " + dineroGanado + " PESOS");
-        } else {
-          console.log("No hay coincidencia");
-        }
-      }
-
-      tresTiros();
-      tiros -= 1;
-    } 
-  } 
-  
-  
-} else {
-  alert("Tenes " + edad + ". Sos menor de edad, no podes jugar.");
-  console.log("Ha salido del juego");
+// GANASTE ///////////////////////////////////////////////////////
+function ganaste() {
+  console.log("COINCIDENCIA!\nGANASTE " + coincidencias + " PESOS.");
+  dinero += coincidencias
 }
 
-  while (dinero >= 100 ){
+// NUMERO RANDOM ///////////////////////////////////////////////////////
+function numeroRandom() {
+  let operacion = Math.ceil(Math.random() * 3);
+  return operacion;
+}
 
+// TRES TIROS ///////////////////////////////////////////////////////
+function tresTiros() {
+  let shoot1 = numeroRandom();
+  console.log(shoot1);
+  let shoot2 = numeroRandom();
+  console.log(shoot2);
+  let shoot3 = numeroRandom();
+  console.log(shoot3);
+
+  console.log("------------");
+
+  if (
+    (shoot1 == 1 && shoot2 == 1 && shoot3 == 1) ||
+    (shoot1 == 2 && shoot2 == 2 && shoot3 == 2) ||
+    (shoot1 == 3 && shoot2 == 3 && shoot3 == 3)
+  ) {
+    ganaste();
+   
+  } else {
+    console.log("No hay coincidencia");
+  }
+} 
+
+//EMPEZAR /////////////////
+function empezar() {
+  tiros = 3
+  for (let i = 3; i > 0; i -= 1) {
+    alert("Presione aceptar para tirar.\nTiros restantes: " + tiros)
+    tresTiros();
+    tiros -= 1;
+  }
+  dinero -= 100
+  console.log("Ya tiraste 3 tiros.")
+}
+
+//JUGAR///////////////////////////////////////////////////////////////////
+function jugar() {
+  
+  while (dinero >= 100) {
     empezar();
-    tiros = 3;
-    dinero -= 100;
-    console.log("Ya tiraste los 3 tiros. Te quedan " + dinero + " pesos para jugar")
-
-    if (dinero < 100) {
-      console.log("NO HAY MAS DINERO. A VENDER COSAS PARA SEGUIR JUGANDO!")
-      break;
+    if (dinero == 0 ) {
+      console.log("NO HAY MAS DINERO. A VENDER COSAS PARA SEGUIR JUGANDO!");
+      return;
     }
     
-    let dineroFinal = dinero + dineroGanado;
-    let seguir = prompt("CONTINUAR?\nescriba SI o NO ")
 
-    if(seguir.toUpperCase() == "SI"){
-      console.log("NUEVA VUELTA. MUCHA SUERTE!")
-    }
-    else{
-      console.log("ABANDONASTE EL JUEGO.\nGANASTE " + dineroGanado + " PESOS.\nTE VAS A CASA CON " + dineroFinal + " pesos");
-      break;
-    }
-  
+  let saldo = dinero - valorTiro;
+
+  let seguir = confirm("CONTINUAR?\nSi sales te vas con " + dinero + " pesos.\nSi continuas, te quedaran " + saldo + " pesos para jugar");
+
+  if (seguir) {
+    console.log("NUEVA VUELTA. MUCHA SUERTE!");
+    
+  } else {
+    console.log("ABANDONASTE EL JUEGO.\nTE VAS CON " + dinero + " PESOS.");
+    return;
+   }
+  }
 }
 
+// VERIFICAR EDAD ////////////////////////////////////////////////////////////
+
+function verificarEdad() {
+  let edad = Number(prompt("Ingrese su edad"));
+  if (edad >= 18) {
+    console.log("el juego comienza");
+    alert(`Tu dinero inicial es de ${dinero}.`+`\nEl valor de los tres tiros es de ${valorTiro} pesos.`)
+    jugar();
+  } else {
+    alert("Tenes " + edad + ". Sos menor de edad, no podes jugar.");
+    console.log("Ha salido del juego");
+  }
+  
 }
-
-
-
-
-
-  
-  
 
